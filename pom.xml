@@ -149,6 +149,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>trtlmail-rest</finalName>
+        <finalName>trtlpost-monolith</finalName>
     </build>
 </project>
