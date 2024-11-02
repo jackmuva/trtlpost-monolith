@@ -52,4 +52,11 @@ public class Series {
 
     @Column(name = "maxCurrentReaders")
     private Integer maxCurrentReaders;
+
+    @Column(name = "shelf")
+    private String shelf;
+
+    enum Shelf {
+        OUR_FAVORITES
+    }
 }

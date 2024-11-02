@@ -20,8 +20,8 @@ public class SeriesServiceImpl implements SeriesService{
     @Autowired
     private ImageService imageService;
 
-    public Series saveSeries(Series series){
-        return seriesRepository.save(series);
+    public void saveSeries(Series series){
+        seriesRepository.save(series);
     }
 
     public void deleteSeries(Long id){
@@ -49,8 +49,28 @@ public class SeriesServiceImpl implements SeriesService{
         return seriesRepository.findByPenNameIgnoreCaseAndPublishedIsTrueOrderByDatetimeDesc(pageable, penName);
     }
 
-    public List<Series> fetchByTag(String tag){
-        return seriesRepository.findAllByTagsIsContainingIgnoreCaseAndPublishedIsTrue(tag);
+    public Page<Series> fetchByTag(Pageable pageable, String tag){
+        return seriesRepository.findAllByTagsIsContainingIgnoreCaseAndPublishedIsTrueOrderByDatetimeDesc(pageable, tag);
+    }
+
+    @Override
+    public Page<Series> fetchMostPopularAllTime(Pageable pageable) {
+        return seriesRepository.findAllByPublishedIsTrueOrderByNumAllTimeReadersDesc(pageable);
+    }
+
+    @Override
+    public Page<Series> fetchMostPopularCurrent(Pageable pageable) {
+        return seriesRepository.findAllByPublishedIsTrueOrderByNumCurrentReadersDesc(pageable);
+    }
+
+    @Override
+    public Page<Series> fetchRandom(Pageable pageable) {
+        return seriesRepository.getRandomSeries(pageable);
+    }
+
+    @Override
+    public Page<Series> fetchByShelf(Pageable pageable, String shelf) {
+        return seriesRepository.findAllByShelfIsContainingIgnoreCaseAndPublishedIsTrueOrderByDatetimeDesc(pageable, shelf);
     }
 
     public Page<Series> fetchByKeyword(Pageable pageable, String keyword, Boolean published){

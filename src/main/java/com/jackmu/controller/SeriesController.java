@@ -101,11 +101,6 @@ public class SeriesController {
         }
     }
 
-    @GetMapping("/tag/{tag}")
-    public List<Series> getSeriesByTag(@PathVariable String tag){
-        return seriesService.fetchByTag(tag);
-    }
-
     @GetMapping("/search/{keyword}")
     public List<Series> searchPublishedSeries(@PathVariable String keyword, @RequestParam(defaultValue = "0") int page){
         try{
@@ -122,4 +117,59 @@ public class SeriesController {
         return seriesService.fetchBySeriesId(id);
     }
 
+    @GetMapping("/tag/{tag}")
+    public Object getSeriesByTag(@RequestParam(defaultValue = "0") int page,
+                                       @PathVariable String tag){
+        try {
+            Pageable paging = PageRequest.of(page, 10);
+            Page<Series> pageSeries = seriesService.fetchByTag(paging, tag);
+            return pageSeries.getContent();
+        } catch (Exception e){
+            return new GenericHttpResponse(HttpStatus.BAD_REQUEST.value(), "unable to fetch by tag");
+        }
+    }
+
+    @GetMapping("/popularAllTime")
+    public Object getPopularAllTime(@RequestParam(defaultValue = "0") int page){
+        try {
+            Pageable paging = PageRequest.of(page, 10);
+            Page<Series> pageSeries = seriesService.fetchMostPopularAllTime(paging);
+            return pageSeries.getContent();
+        } catch (Exception e){
+            return new GenericHttpResponse(HttpStatus.BAD_REQUEST.value(), "unable to fetch most popular all time series");
+        }
+    }
+
+    @GetMapping("/popularCurrent")
+    public Object getPopularCurrent(@RequestParam(defaultValue = "0") int page){
+        try {
+            Pageable paging = PageRequest.of(page, 10);
+            Page<Series> pageSeries = seriesService.fetchMostPopularCurrent(paging);
+            return pageSeries.getContent();
+        } catch (Exception e){
+            return new GenericHttpResponse(HttpStatus.BAD_REQUEST.value(), "unable to fetch most popular current series");
+        }
+    }
+
+    @GetMapping("/random")
+    public Object getRandom(@RequestParam(defaultValue = "0") int page){
+        try {
+            Pageable paging = PageRequest.of(page, 10);
+            Page<Series> pageSeries = seriesService.fetchRandom(paging);
+            return pageSeries.getContent();
+        } catch (Exception e){
+            return new GenericHttpResponse(HttpStatus.BAD_REQUEST.value(), "unable to fetch random series");
+        }
+    }
+
+    @GetMapping("/shelf/{shelf}")
+    public Object getByShelf(@RequestParam(defaultValue = "0") int page, @PathVariable String shelf){
+        try {
+            Pageable paging = PageRequest.of(page, 10);
+            Page<Series> pageSeries = seriesService.fetchByShelf(paging, shelf);
+            return pageSeries.getContent();
+        } catch (Exception e){
+            return new GenericHttpResponse(HttpStatus.BAD_REQUEST.value(), "unable to fetch by shelf");
+        }
+    }
 }

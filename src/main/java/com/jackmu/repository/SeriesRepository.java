@@ -47,4 +47,15 @@ public interface SeriesRepository extends JpaRepository<Series, Long> {
             nativeQuery = true)
     void decrementCurrentReaders(@Param("seriesId") Long seriesId,
                                  @Param("numReaders") Integer numReaders);
+
+    Page<Series> findAllByTagsIsContainingIgnoreCaseAndPublishedIsTrueOrderByDatetimeDesc(Pageable pageable, String tag);
+
+    Page<Series> findAllByShelfIsContainingIgnoreCaseAndPublishedIsTrueOrderByDatetimeDesc(Pageable pageable, String shelf);
+
+    Page<Series> findAllByPublishedIsTrueOrderByNumAllTimeReadersDesc(Pageable pageable);
+
+    Page<Series> findAllByPublishedIsTrueOrderByNumCurrentReadersDesc(Pageable pageable);
+
+    @Query(nativeQuery=true, value="SELECT *  FROM Series ORDER BY RANDOM()")
+    Page<Series> getRandomSeries(Pageable pageable);
 }
