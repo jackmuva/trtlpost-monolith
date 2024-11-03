@@ -56,6 +56,6 @@ public interface SeriesRepository extends JpaRepository<Series, Long> {
 
     Page<Series> findAllByPublishedIsTrueOrderByNumCurrentReadersDesc(Pageable pageable);
 
-    @Query(nativeQuery=true, value="SELECT *  FROM Series ORDER BY RANDOM()")
+    @Query(nativeQuery=true, value="SELECT *  FROM Series WHERE published = true ORDER BY RANDOM()")
     Page<Series> getRandomSeries(Pageable pageable);
 }

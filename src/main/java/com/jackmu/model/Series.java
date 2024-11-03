@@ -57,6 +57,6 @@ public class Series {
     private String shelf;
 
     enum Shelf {
-        OUR_FAVORITES
+        TOP_PICKS
     }
 }
